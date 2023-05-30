@@ -28,7 +28,7 @@ Lets say we have 3 other users in the app with following hobbies:
     ]
   }
 ]
-### API Request
+ #API Request
 
 
 `GET /match/{user_id}`
@@ -55,7 +55,7 @@ Then response shoul be
   }
 ]
 
-Explanation:
+#Explanation:
 
 Meet (`id = 1`) has total 3 hobbies:
 
@@ -72,20 +72,24 @@ Meet (`id = 1`) has total 3 hobbies:
 You can use any language, framework, and any backend DB to store the data. Frontend is not required to develop, just backend service is enough.
 
 1.Set up the Flask application and define the endpoint for the match API:
+
 from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-# Define endpoint for match API
+#Define endpoint for match API
+
 @app.route('/match/<int:user_id>')
 def get_potential_matches(user_id):
+
     # Get the user's hobbies from the database
+    
     user_hobbies = get_user_hobbies(user_id)
     
-    # Get all other users from the database
+    #Get all other users from the database
     all_users = get_all_users()
     
-    # Calculate the compatibility score for each user
+     #Calculate the compatibility score for each user
     matches = []
     for user in all_users:
         if user['id'] != user_id:  # Exclude the current user
@@ -98,18 +102,22 @@ def get_potential_matches(user_id):
             })
     
     # Sort the matches based on compatibility score in descending order
+    
     matches = sorted(matches, key=lambda x: x['compatibility_score'], reverse=True)
     
     # Return the potential matches
+    
     return jsonify(matches[:10])  # Return top 10 matches
 
-# Run the Flask application
+#Run the Flask application
+
 if __name__ == '__main__':
     app.run()
 2.Implement the helper functions to retrieve data from the database:
-# Example data in memory, you can replace this with database queries
 
-# Get the user's hobbies from the database
+
+#Get the user's hobbies from the database
+
 def get_user_hobbies(user_id):
     users_data = {
         1: {
@@ -149,7 +157,8 @@ def get_user_hobbies(user_id):
     }
     return users_data[user_id]['hobbies']
 
-# Get all other users from the database
+#Get all other users from the database
+
 def get_all_users():
     users_data = {
         2: {
@@ -180,7 +189,8 @@ def get_all_users():
     }
     return list(users_data.values())
 
-# Calculate the compatibility score between two users based on shared hobbies
+#Calculate the compatibility score between two users based on shared hobbies
+
 def calculate_compatibility(user1_hobbies, user2_hobbies):
     shared_hobbies = set(user1_hobbies) & set(user2_hobbies)
     return len(shared_hobbies)
