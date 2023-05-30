@@ -113,6 +113,7 @@ def get_potential_matches(user_id):
 
 if __name__ == '__main__':
     app.run()
+
 2.Implement the helper functions to retrieve data from the database:
 
 
